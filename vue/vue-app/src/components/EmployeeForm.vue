@@ -2,7 +2,8 @@
     <div id="employee-form">
         <form @submit.prevent="handleSubmit">
             <label>Employee Name</label>
-            <input 
+            <input
+                ref="first"
                 type="text" 
                 v-model="employee.name" 
                 :class="{ 'has-error': submitting && invalidName }"
@@ -10,7 +11,7 @@
                 @keypress="clearStatus"
             />
             <label>Employee Email</label>
-            <input 
+            <input
                 type="text" 
                 v-model="employee.email" 
                 :class="{ 'has-error': submitting && invalidEmail }"
@@ -56,6 +57,7 @@ export default {
             }
 
             this.$emit('add:employee', this.employee)
+            this.$refs.first.focus()
             this.employee = {
                 name: '',
                 email: ''
