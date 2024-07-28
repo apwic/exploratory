@@ -3,7 +3,7 @@ import pandas as pd
 
 # Load the CSV files
 DATA_DIR = "./data/"
-file_paths = [DATA_DIR + "nerui_eval_f1.csv", DATA_DIR + "nerugm_eval_f1.csv"]
+file_paths = [DATA_DIR + "nerui.csv", DATA_DIR + "nerugm.csv"]
 
 # Create the figure and subplots
 fig, axes = plt.subplots(2, 1, figsize=(12, 10))
@@ -21,11 +21,11 @@ for i, file_path in enumerate(file_paths):
         "Baseline",
         "LoRA-r8",
         "LoRA-r16",
-        "PT-pl10",
-        "PT-pl20",
-        "PT-pl30",
+        "PT-pl5",
+        "PT-pl50",
+        "Seq_BN-rf64",
+        "Seq_BN-rf16",
         "UniPELT",
-        "Seq_BN",
     ]
 
     # Prepare data for the bar chart
@@ -43,14 +43,14 @@ for i, file_path in enumerate(file_paths):
     error_bars = [overall_f1 - min_f1, max_f1 - overall_f1]
 
     methods = [
-        "Baseline",
-        "LoRA-r8",
-        "LoRA-r16",
-        "PT-pl10",
-        "PT-pl20",
-        "PT-pl30",
+        "Fine-tuning",
+        "LoRA (r=8)",
+        "LoRA (r=16)",
+        "PT (pl=5)",
+        "PT (pl=50)",
+        "Adapter (rf=64)",
+        "Adapter (rf=16)",
         "UniPELT",
-        "Bottleneck",
     ]
 
     # Plot the dataset
@@ -95,6 +95,6 @@ for i, file_path in enumerate(file_paths):
     )
 
 # Save the plot as a PNG file
-output_path = "ner_eval_f1.png"
+output_path = "output/ner_result.png"
 plt.savefig(output_path)
 plt.show()

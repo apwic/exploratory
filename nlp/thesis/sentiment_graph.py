@@ -3,7 +3,7 @@ import pandas as pd
 
 # Load the CSV file
 DATA_DIR = "./data/"
-file_path = DATA_DIR + "sentiment_eval_f1.csv"
+file_path = DATA_DIR + "sentiment.csv"
 df = pd.read_csv(file_path)
 
 # Extract the final row of the dataframe
@@ -14,12 +14,13 @@ methods = [
     "Baseline",
     "LoRA-r8",
     "LoRA-r16",
-    "PT-pl10",
-    "PT-pl20",
-    "PT-pl30",
+    "PT-pl5",
+    "PT-pl50",
+    "Seq_BN-rf64",
+    "Seq_BN-rf16",
     "UniPELT",
-    "Seq_BN",
 ]
+
 f1 = final_row[[f"Group: {method.lower()} - eval/f1" for method in methods]].values
 min_f1 = final_row[
     [f"Group: {method.lower()} - eval/f1__MIN" for method in methods]
@@ -34,15 +35,16 @@ error_bars = [f1 - min_f1, max_f1 - f1]
 # Create the bar chart
 plt.figure(figsize=(12, 6))
 methods = [
-    "Baseline",
-    "LoRA-r8",
-    "LoRA-r16",
-    "PT-pl10",
-    "PT-pl20",
-    "PT-pl30",
+    "Fine-tuning",
+    "LoRA (r=8)",
+    "LoRA (r=16)",
+    "PT (pl=5)",
+    "PT (pl=50)",
+    "Adapter (rf=64)",
+    "Adapter (rf=16)",
     "UniPELT",
-    "Bottleneck",
 ]
+
 bars = plt.bar(
     methods, f1, yerr=error_bars, capsize=5, color="dodgerblue", edgecolor="black"
 )
@@ -77,6 +79,6 @@ plt.text(
 )
 
 # Save the plot as a PNG file
-output_path = "sentiment_eval_f1.png"
+output_path = "output/sentiment_result.png"
 plt.savefig(output_path)
 plt.show()
